@@ -1,3 +1,3 @@
-module monkey
+module go-interpreter
 
 go 1.17
