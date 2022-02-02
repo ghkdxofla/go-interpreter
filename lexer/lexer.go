@@ -1,6 +1,8 @@
 package lexer
 
-import "go-interpreter/token"
+import (
+	"go-interpreter/token"
+)
 
 // TODO: ch의 byte를 rune으로 변경하면 유니코드, utf-8 지원 가능함
 type Lexer struct {
@@ -43,6 +45,9 @@ func (l *Lexer) NextToken() token.Token {
 			tok.Literal = l.readIdentifier()
 			tok.Type = token.LookUpIdent(tok.Literal)
 			return tok
+		} else if isDigit(l.ch) {
+			tok.Literal = l.readNumber()
+			tok.Type = token.INT
 		} else {
 			tok = newToken(token.ILLEGAL, l.ch)
 		}
@@ -82,6 +87,18 @@ func (l *Lexer) readIdentifier() string {
 	return l.input[position:l.position] // 글자 추출
 }
 
+func (l *Lexer) readNumber() string {
+	position := l.position
+	for isDigit(l.ch) {
+		l.readNumber()
+	}
+	return l.input[position:l.position]
+}
+
 func isLetter(ch byte) bool {
 	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_' // 이 식 대로면 var-iable 등의 변수명은 불가
+}
+
+func isDigit(ch byte) bool {
+	return '0' <= ch && ch <= '9'
 }
