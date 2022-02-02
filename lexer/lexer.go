@@ -38,6 +38,14 @@ func (l *Lexer) NextToken() token.Token {
 		tok = newToken(token.PLUS, l.ch)
 	case 0:
 		tok = newToken(token.EOF, l.ch)
+	default:
+		if isLetter(l.ch) {
+			tok.Literal = l.readIdentifier()
+			tok.Type = token.LookUpIdent(tok.Literal)
+			return tok
+		} else {
+			tok = newToken(token.ILLEGAL, l.ch)
+		}
 	}
 
 	l.readChar()
@@ -64,4 +72,16 @@ func (l *Lexer) readChar() {
 	}
 	l.position = l.readPosition
 	l.readPosition += 1
+}
+
+func (l *Lexer) readIdentifier() string {
+	position := l.position // 글자의 처음 시작점 저장
+	for isLetter(l.ch) {
+		l.readChar()
+	}
+	return l.input[position:l.position] // 글자 추출
+}
+
+func isLetter(ch byte) bool {
+	return 'a' <= ch && ch <= 'z' || 'A' <= ch && ch <= 'Z' || ch == '_' // 이 식 대로면 var-iable 등의 변수명은 불가
 }
