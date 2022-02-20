@@ -16,8 +16,15 @@ const (
 	INT   = "INT"
 
 	// Operator
-	ASSIGN = "="
-	PLUS   = "+"
+	ASSIGN   = "="
+	PLUS     = "+"
+	MINUS    = "-"
+	BANG     = "!"
+	ASTERISK = "*"
+	SLASH    = "/"
+
+	LT = "<"
+	GT = ">"
 
 	// Sperator
 	COMMA     = ","
