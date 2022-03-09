@@ -56,7 +56,7 @@ func testLetStatement(t *testing.T, s ast.Statement, name string) bool {
 	// Right value: Boolean if the assertion holds in case of I.(T)
 	letStmt, ok := s.(*ast.LetStatement)
 	if !ok {
-		t.Error("s not *ast.LetStatement. got=%T", s)
+		t.Errorf("s not *ast.LetStatement. got=%T", s)
 		return false
 	}
 
